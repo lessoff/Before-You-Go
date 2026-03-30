@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
     dishes: aiContent?.dishes ?? null,
     power,
     transport: aiContent?.transport ?? null,
+    bestMonths: aiContent?.bestMonths ?? null,
   };
 
   return NextResponse.json(briefing);

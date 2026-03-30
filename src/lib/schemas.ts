@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const geminiResponseSchema = z.object({
+  bestMonths: z.array(z.string()),
   safety: z.object({
     level: z.enum(["low", "moderate", "high", "extreme"]),
     summary: z.string(),
@@ -107,4 +108,5 @@ export const briefingResponseSchema = z.object({
       })
     )
     .nullable(),
+  bestMonths: z.array(z.string()).nullable(),
 });

@@ -8,6 +8,7 @@ import CustomsCard from "@/components/cards/CustomsCard";
 import DishesCard from "@/components/cards/DishesCard";
 import PowerCard from "@/components/cards/PowerCard";
 import TransportCard from "@/components/cards/TransportCard";
+import BestMonthsCard from "@/components/cards/BestMonthsCard";
 
 interface BriefingGridProps {
   data: BriefingResponse;
@@ -30,7 +31,10 @@ export default function BriefingGrid({ data }: BriefingGridProps) {
           utcOffset={data.time.utcOffset}
           delay={0}
         />
-        <SafetyCard safety={data.safety} delay={50} />
+        {data.bestMonths && data.bestMonths.length > 0 && (
+          <BestMonthsCard bestMonths={data.bestMonths} delay={50} />
+        )}
+        <SafetyCard safety={data.safety} delay={100} />
         <WeatherCard weather={data.weather} delay={100} />
         <LanguagesCard languages={data.languages} delay={150} />
         <PhrasesCard phrases={data.phrases} delay={200} />

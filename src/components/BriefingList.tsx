@@ -8,6 +8,7 @@ import CustomsSection from "@/components/sections/CustomsSection";
 import DishesSection from "@/components/sections/DishesSection";
 import PowerSection from "@/components/sections/PowerSection";
 import TransportSection from "@/components/sections/TransportSection";
+import BestMonthsSection from "@/components/sections/BestMonthsSection";
 
 interface BriefingListProps {
   data: BriefingResponse;
@@ -34,7 +35,10 @@ export default function BriefingList({ data }: BriefingListProps) {
       </div>
 
       <TimeSection timezone={data.time.timezone} delay={0} />
-      <SafetySection safety={data.safety} delay={60} />
+      {data.bestMonths && data.bestMonths.length > 0 && (
+        <BestMonthsSection bestMonths={data.bestMonths} delay={60} />
+      )}
+      <SafetySection safety={data.safety} delay={120} />
       <WeatherSection weather={data.weather} delay={120} />
       <LanguagesSection languages={data.languages} delay={180} />
       <PhrasesSection phrases={data.phrases} delay={240} />

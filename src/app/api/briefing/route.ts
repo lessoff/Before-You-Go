@@ -28,14 +28,14 @@ export async function GET(request: NextRequest) {
   }
 
   const owmKey = process.env.OPENWEATHERMAP_API_KEY;
-  const geminiKey = process.env.GEMINI_API_KEY;
+  const groqKey = process.env.GROQ_API_KEY;
 
   // Step 2: Fetch weather, AI content, and exchange rate in parallel
   const destCurrencyCode = countryData.currency?.code ?? null;
   const [weatherResult, aiResult, exchangeRateResult] = await Promise.allSettled([
     owmKey ? fetchWeather(countryData.capital, owmKey) : Promise.reject("No API key"),
-    geminiKey
-      ? fetchAIContent(countryData.name, countryData.capital, geminiKey)
+    groqKey
+      ? fetchAIContent(countryData.name, countryData.capital, groqKey)
       : Promise.reject("No API key"),
     destCurrencyCode && destCurrencyCode !== "USD"
       ? fetchExchangeRate("USD", destCurrencyCode)

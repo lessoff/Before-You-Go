@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 import type { GeminiResponse } from "../types";
 
 export async function fetchAIContent(
@@ -6,7 +6,7 @@ export async function fetchAIContent(
   capital: string,
   apiKey: string
 ): Promise<GeminiResponse> {
-  const ai = new GoogleGenAI({ apiKey });
+  const groq = new Groq({ apiKey });
 
   const prompt = `You are a travel expert. For the country "${country}" (capital: "${capital}"), provide travel briefing information in JSON format.
 
@@ -18,25 +18,13 @@ Return a JSON object with these exact fields:
 5. "dishes": array of exactly 5 must-try local dishes. Each object has: "name", "description"
 6. "transport": array of 3-5 popular transport apps or services. Each object has: "name", "description", "type": "rideshare"|"transit"|"bike"|"other"`;
 
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: prompt,
-    config: {
-      responseMimeType: "application/json",
-      thinkingConfig: { thinkingBudget: 0 },
-    },
+  const response = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [{ role: "user", content: prompt }],
+    response_format: { type: "json_object" },
   });
 
-  const raw = response.text ?? "";
-
-  // Extract JSON robustly — strips any surrounding markdown or thinking text
-  const start = raw.indexOf("{");
-  const end = raw.lastIndexOf("}");
-  if (start === -1 || end === -1) {
-    throw new Error("Gemini returned no JSON object");
-  }
-  const jsonStr = raw.slice(start, end + 1);
-
-  const parsed = JSON.parse(jsonStr) as GeminiResponse;
+  const raw = response.choices[0]?.message?.content ?? "";
+  const parsed = JSON.parse(raw) as GeminiResponse;
   return parsed;
 }

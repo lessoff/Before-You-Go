@@ -48,7 +48,7 @@ export default function TransportSection({ transport, delay }: TransportSectionP
                     {tc.label}
                   </span>
                 </div>
-                <p className="mt-0.5 text-xs text-white/40">{app.description}</p>
+                <p className="mt-0.5 text-sm text-white/65">{app.description}</p>
               </div>
             </div>
           );

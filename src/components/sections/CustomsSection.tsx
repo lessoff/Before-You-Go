@@ -33,7 +33,7 @@ export default function CustomsSection({ customs, delay }: CustomsSectionProps) 
                 style={{ background: "#22c55e0e", border: "1px solid #22c55e18" }}
               >
                 <p className="text-sm font-semibold text-white">{item.title}</p>
-                <p className="mt-0.5 text-xs text-white/40">{item.description}</p>
+                <p className="mt-0.5 text-sm text-white/65">{item.description}</p>
               </div>
             ))}
           </div>
@@ -50,7 +50,7 @@ export default function CustomsSection({ customs, delay }: CustomsSectionProps) 
                 style={{ background: "#f43f5e0e", border: "1px solid #f43f5e18" }}
               >
                 <p className="text-sm font-semibold text-white">{item.title}</p>
-                <p className="mt-0.5 text-xs text-white/40">{item.description}</p>
+                <p className="mt-0.5 text-sm text-white/65">{item.description}</p>
               </div>
             ))}
           </div>

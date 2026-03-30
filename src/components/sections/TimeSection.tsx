@@ -48,7 +48,7 @@ export default function TimeSection({ timezone, delay }: TimeSectionProps) {
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-4xl font-bold tracking-tight text-white">{time.time}</p>
-          <p className="mt-1 text-sm text-white/40">{time.date}</p>
+          <p className="mt-1 text-sm text-white/65">{time.date}</p>
         </div>
         <div
           className="rounded-xl px-4 py-2 text-sm font-medium"

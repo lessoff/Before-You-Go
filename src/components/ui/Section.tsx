@@ -31,7 +31,7 @@ export default function Section({ icon, title, accent, children, delay = 0 }: Se
         >
           {icon}
         </div>
-        <h3 className="text-sm font-semibold uppercase tracking-widest text-white/50">
+        <h3 className="text-sm font-semibold uppercase tracking-widest text-white/70">
           {title}
         </h3>
       </div>

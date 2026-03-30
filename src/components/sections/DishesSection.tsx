@@ -28,7 +28,7 @@ export default function DishesSection({ dishes, delay }: DishesSectionProps) {
             <span className="text-xl">{["🥘", "🍜", "🥗", "🍱", "🥙"][i % 5]}</span>
             <div>
               <p className="text-sm font-bold text-white">{dish.name}</p>
-              <p className="text-xs text-white/40">{dish.description}</p>
+              <p className="text-sm text-white/65">{dish.description}</p>
             </div>
           </div>
         ))}

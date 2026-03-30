@@ -39,13 +39,13 @@ export default function SafetySection({ safety, delay }: SafetySectionProps) {
           >
             {cfg.label}
           </span>
-          <p className="text-sm leading-relaxed text-white/60">{safety.summary}</p>
+          <p className="text-sm leading-relaxed text-white/80">{safety.summary}</p>
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {safety.tips.map((tip, i) => (
             <div
               key={i}
-              className="rounded-xl p-3 text-xs text-white/50"
+              className="rounded-xl p-3 text-sm text-white/70"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
             >
               <span className="mr-2 text-rose-400">→</span>

@@ -41,7 +41,7 @@ export default function WeatherSection({ weather, delay }: WeatherSectionProps) 
           <img src={iconUrl(weather.current.icon)} alt="" className="h-16 w-16 drop-shadow-lg" />
           <div>
             <p className="text-5xl font-bold text-white">{weather.current.temp}°</p>
-            <p className="mt-0.5 text-sm capitalize text-white/40">{weather.current.description}</p>
+            <p className="mt-0.5 text-sm capitalize text-white/65">{weather.current.description}</p>
           </div>
         </div>
 
@@ -54,10 +54,10 @@ export default function WeatherSection({ weather, delay }: WeatherSectionProps) 
                 className="flex min-w-[76px] flex-shrink-0 flex-col items-center rounded-xl py-3"
                 style={{ background: `${ACCENT}10`, border: `1px solid ${ACCENT}22` }}
               >
-                <span className="text-xs font-medium text-white/40">{fmtDay(day.date)}</span>
+                <span className="text-xs font-medium text-white/65">{fmtDay(day.date)}</span>
                 <img src={iconUrl(day.icon)} alt="" className="my-1 h-9 w-9" />
                 <span className="text-xs font-semibold text-white">{day.tempMax}°</span>
-                <span className="text-xs text-white/30">{day.tempMin}°</span>
+                <span className="text-xs text-white/55">{day.tempMin}°</span>
               </div>
             ))}
           </div>

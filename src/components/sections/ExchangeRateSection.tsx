@@ -42,7 +42,7 @@ export default function ExchangeRateSection({
           </div>
           <div>
             <p className="text-sm font-semibold text-white">{currency.code}</p>
-            <p className="text-xs text-white/40">{currency.name}</p>
+            <p className="text-xs text-white/65">{currency.name}</p>
           </div>
           <div
             className="ml-auto rounded-lg px-3 py-1 text-xs font-semibold"
@@ -57,7 +57,7 @@ export default function ExchangeRateSection({
 
         {/* Calculator */}
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/30">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/55">
             Calculator
           </p>
           <div className="flex items-stretch gap-3">
@@ -69,8 +69,8 @@ export default function ExchangeRateSection({
               <span className="text-sm font-semibold text-white/40">USD</span>
               <span className="text-white/20">$</span>
               <input
-                type="number"
-                min="0"
+                type="text"
+                inputMode="decimal"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 className="w-full bg-transparent text-right text-lg font-bold text-white outline-none placeholder:text-white/20"

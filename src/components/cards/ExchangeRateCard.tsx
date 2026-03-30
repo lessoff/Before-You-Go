@@ -36,8 +36,8 @@ export default function ExchangeRateCard({ currency, exchangeRate, delay }: Exch
           <div className="flex flex-1 items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
             <span className="text-xs text-gray-400">USD $</span>
             <input
-              type="number"
-              min="0"
+              type="text"
+              inputMode="decimal"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               className="w-full bg-transparent text-right text-base font-bold text-gray-900 outline-none"

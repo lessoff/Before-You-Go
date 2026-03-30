@@ -32,7 +32,7 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
       <div className="space-y-6">
         {/* Plug type illustrations */}
         <div>
-          <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-white/30">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-white/55">
             Plug Types
           </p>
           <div className="flex flex-wrap gap-5">
@@ -49,7 +49,7 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
                   </span>
                 </div>
                 {/* Description label */}
-                <p className="max-w-[88px] text-center text-[10px] leading-tight text-white/40">
+                <p className="max-w-[88px] text-center text-[10px] leading-tight text-white/60">
                   {plugLabels[t.toUpperCase()] ?? ""}
                 </p>
               </div>
@@ -63,7 +63,7 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
           style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
         >
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-white/30">Voltage</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/55">Voltage</p>
             <p className="mt-1 text-2xl font-bold text-white">{power.voltage}</p>
           </div>
           <div
@@ -71,7 +71,7 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
             style={{ background: "rgba(255,255,255,0.07)" }}
           />
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-white/30">Frequency</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/55">Frequency</p>
             <p className="mt-1 text-2xl font-bold text-white">{power.frequency}</p>
           </div>
         </div>

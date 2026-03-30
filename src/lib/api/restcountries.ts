@@ -6,6 +6,7 @@ export interface CountryData {
   languages: { code: string; name: string }[];
   timezones: string[];
   cca2: string;
+  currency: { code: string; name: string; symbol: string } | null;
 }
 
 export async function fetchCountryData(
@@ -36,6 +37,12 @@ export async function fetchCountryData(
       }))
     : [];
 
+  let currency: { code: string; name: string; symbol: string } | null = null;
+  if (c.currencies) {
+    const [code, info] = Object.entries(c.currencies)[0] as [string, { name: string; symbol: string }];
+    currency = { code, name: info.name, symbol: info.symbol ?? code };
+  }
+
   return {
     name: c.name.common,
     capital: c.capital?.[0] ?? "Unknown",
@@ -44,5 +51,6 @@ export async function fetchCountryData(
     languages,
     timezones: c.timezones ?? [],
     cca2: c.cca2 ?? "",
+    currency,
   };
 }

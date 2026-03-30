@@ -50,6 +50,18 @@ export const weatherForecastDaySchema = z.object({
   icon: z.string(),
 });
 
+export const currencySchema = z.object({
+  code: z.string(),
+  name: z.string(),
+  symbol: z.string(),
+});
+
+export const exchangeRateSchema = z.object({
+  from: z.string(),
+  to: z.string(),
+  rate: z.number(),
+});
+
 export const briefingResponseSchema = z.object({
   country: z.string(),
   capital: z.string(),
@@ -94,6 +106,8 @@ export const briefingResponseSchema = z.object({
   dishes: z
     .array(z.object({ name: z.string(), description: z.string() }))
     .nullable(),
+  currency: currencySchema.nullable(),
+  exchangeRate: exchangeRateSchema.nullable(),
   power: z.object({
     plugTypes: z.array(z.string()),
     voltage: z.string(),

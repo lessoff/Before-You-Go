@@ -31,7 +31,19 @@ export default function Home() {
           <h1 className="mt-4 text-5xl font-extrabold tracking-tight text-white sm:text-7xl">
             Before You Go
           </h1>
-          <p className="mt-4 text-lg text-white/50">
+          <p className="mt-4 text-xl font-semibold text-white/80 sm:text-2xl">
+            Stop Asking AI Many Questions.{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #6366f1, #c084fc)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Enter Your Destination Once.
+            </span>
+          </p>
+          <p className="mt-3 text-sm text-white/30">
             Local time · Safety · Weather · Phrases · Customs · Food · Power · Transport
           </p>
           <div className="mt-10">

@@ -9,7 +9,7 @@ interface SectionProps {
 export default function Section({ title, children, delay = 0 }: SectionProps) {
   return (
     <div
-      className="animate-fade-in-up w-full"
+      className="animate-fade-in-up flex h-full flex-col"
       style={{ animationDelay: `${delay}ms` }}
     >
       {/* Section header */}
@@ -29,7 +29,7 @@ export default function Section({ title, children, delay = 0 }: SectionProps) {
 
       {/* Content */}
       <div
-        className="rounded-xl px-6 py-5"
+        className="flex-1 rounded-xl px-6 py-5"
         style={{
           background: "var(--bg-card)",
           border: "1px solid var(--border)",

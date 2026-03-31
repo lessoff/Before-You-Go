@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Syne, Outfit, Space_Mono } from "next/font/google";
+import { Nunito, DM_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const syne = Syne({
+const nunito = Nunito({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-display",
 });
 
-const outfit = Outfit({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
@@ -33,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${syne.variable} ${outfit.variable} ${spaceMono.variable}`}>{children}</body>
+      <body className={`${nunito.variable} ${dmSans.variable} ${spaceMono.variable}`}>{children}</body>
     </html>
   );
 }

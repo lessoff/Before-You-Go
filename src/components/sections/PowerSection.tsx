@@ -35,7 +35,7 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
                 <PlugIcon type={t} size={72} />
                 <span
                   className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold"
-                  style={{ background: "var(--accent)", color: "#0c0b08" }}
+                  style={{ background: "var(--accent)", color: "#ffffff" }}
                 >
                   {t}
                 </span>

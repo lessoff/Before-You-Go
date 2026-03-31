@@ -45,12 +45,20 @@ export default function TimeSection({ timezone, delay }: TimeSectionProps) {
     <Section title="Local Time" delay={delay}>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p
-            className="font-mono text-5xl font-bold tracking-tight"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {time.time}
-          </p>
+          <div className="flex items-baseline gap-2 whitespace-nowrap">
+            <span
+              className="font-display text-5xl font-bold leading-none"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {time.time.replace(/\s*(AM|PM)$/i, "")}
+            </span>
+            <span
+              className="font-display text-lg font-semibold"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {time.time.match(/(AM|PM)$/i)?.[0] ?? ""}
+            </span>
+          </div>
           <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>
             {time.date}
           </p>

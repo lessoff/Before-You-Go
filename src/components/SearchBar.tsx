@@ -78,15 +78,16 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
     <div ref={containerRef} className="relative mx-auto w-full max-w-lg">
       <form onSubmit={handleSubmit}>
         <div
-          className="flex items-center gap-0 overflow-hidden rounded-xl transition-all"
+          className="flex items-center gap-2 rounded-2xl px-4 py-2 transition-all"
           style={{
             background: "var(--bg-card)",
             border: `1px solid ${open ? "var(--accent-border)" : "var(--border)"}`,
+            boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
           }}
         >
-          {/* Search icon — typographic */}
+          {/* Search icon */}
           <span
-            className="shrink-0 pl-4 text-sm font-light select-none"
+            className="shrink-0 pl-1 text-sm font-light select-none"
             style={{ color: "var(--text-muted)" }}
           >
             ↗
@@ -101,7 +102,7 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
             placeholder="Enter a country name..."
             disabled={isLoading}
             autoComplete="off"
-            className="flex-1 bg-transparent px-3 py-3.5 text-sm outline-none"
+            className="flex-1 bg-transparent py-2.5 text-sm outline-none"
             style={{
               color: "var(--text-primary)",
             }}
@@ -110,12 +111,11 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
           <button
             type="submit"
             disabled={isLoading || !query.trim()}
-            className="shrink-0 rounded-none px-6 py-3.5 text-xs font-semibold uppercase tracking-widest transition-all disabled:cursor-not-allowed"
+            className="shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-all disabled:cursor-not-allowed"
             style={{
               background: "var(--accent)",
-              color: "#0c0b08",
-              opacity: isLoading || !query.trim() ? 0.4 : 1,
-              borderLeft: "1px solid var(--accent-border)",
+              color: "#ffffff",
+              opacity: isLoading || !query.trim() ? 0.35 : 1,
             }}
           >
             {isLoading ? (
@@ -134,7 +134,7 @@ export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
           style={{
             background: "var(--bg-card)",
             border: "1px solid var(--border)",
-            boxShadow: "0 16px 40px rgba(0,0,0,0.5)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
           }}
         >
           {suggestions.map((country, i) => {

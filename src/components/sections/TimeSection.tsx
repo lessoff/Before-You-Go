@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import Section from "@/components/ui/Section";
 
-const ACCENT = "#06b6d4";
-
 interface TimeSectionProps {
   timezone: string;
   delay?: number;
@@ -44,15 +42,26 @@ export default function TimeSection({ timezone, delay }: TimeSectionProps) {
   }, [timezone]);
 
   return (
-    <Section icon="🕐" title="Local Time & Timezone" accent={ACCENT} delay={delay}>
+    <Section title="Local Time" delay={delay}>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-4xl font-bold tracking-tight text-white">{time.time}</p>
-          <p className="mt-1 text-sm text-white/65">{time.date}</p>
+          <p
+            className="font-mono text-5xl font-bold tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
+            {time.time}
+          </p>
+          <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>
+            {time.date}
+          </p>
         </div>
         <div
-          className="rounded-xl px-4 py-2 text-sm font-medium"
-          style={{ background: `${ACCENT}18`, color: ACCENT }}
+          className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium tracking-wide"
+          style={{
+            background: "var(--accent-dim)",
+            color: "var(--accent)",
+            border: "1px solid var(--accent-border)",
+          }}
         >
           {timezone}
         </div>

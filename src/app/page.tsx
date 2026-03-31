@@ -23,28 +23,34 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero */}
-      <div className="relative border-b border-white/5 pb-12 pt-16 text-center">
-        <div className="mx-auto max-w-3xl px-4">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-white/60 backdrop-blur-sm">
-            ✈️ &nbsp; Your travel briefing, instantly
-          </div>
-          <h1 className="mt-4 text-5xl font-extrabold tracking-tight text-white sm:text-7xl">
+      <div
+        className="relative pb-16 pt-20 text-center"
+        style={{ borderBottom: "1px solid var(--border)" }}
+      >
+        <div className="mx-auto max-w-3xl px-6">
+          <p
+            className="mb-6 text-[10px] font-semibold uppercase tracking-[0.3em]"
+            style={{ color: "var(--accent)" }}
+          >
+            Travel Intelligence
+          </p>
+          <h1
+            className="font-display text-6xl font-semibold leading-none tracking-tight sm:text-8xl"
+            style={{ color: "var(--text-primary)" }}
+          >
             Before You Go
           </h1>
-          <p className="mt-4 text-xl font-semibold text-white/80 sm:text-2xl">
-            Stop Asking AI Many Questions.{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, #6366f1, #c084fc)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Enter Your Destination Once.
-            </span>
+          <p
+            className="mt-5 text-lg font-light sm:text-xl"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Stop Asking AI Many Questions. Enter Your Destination Once.
           </p>
-          <p className="mt-3 text-sm text-white/30">
-            Local time · Safety · Weather · Phrases · Customs · Food · Power · Transport
+          <p
+            className="mt-2 text-xs tracking-widest uppercase"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Time &nbsp;·&nbsp; Visa &nbsp;·&nbsp; Safety &nbsp;·&nbsp; Weather &nbsp;·&nbsp; Phrases &nbsp;·&nbsp; Customs &nbsp;·&nbsp; Food &nbsp;·&nbsp; Power
           </p>
           <div className="mt-10">
             <SearchBar onSearch={handleSearch} isLoading={loading} />
@@ -53,7 +59,7 @@ export default function Home() {
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-3xl px-4 py-10">
+      <div className="mx-auto max-w-3xl px-4 py-12">
         {loading && <SectionSkeleton />}
 
         {error && !loading && (
@@ -63,17 +69,32 @@ export default function Home() {
         {data && !loading && <BriefingList data={data} />}
 
         {!data && !loading && !error && (
-          <div className="mt-20 text-center">
-            <p className="text-7xl opacity-20">🌍</p>
-            <p className="mt-5 text-base text-white/30">
-              Enter a country above to see your full travel briefing
+          <div className="mt-24 text-center">
+            <div
+              className="mx-auto mb-6 h-px w-16"
+              style={{ background: "var(--accent)" }}
+            />
+            <p
+              className="font-display text-2xl font-medium"
+              style={{ color: "var(--text-muted)" }}
+            >
+              Enter a destination above
+            </p>
+            <p
+              className="mt-2 text-sm"
+              style={{ color: "var(--text-muted)" }}
+            >
+              Your full travel briefing appears here
             </p>
           </div>
         )}
       </div>
 
-      <footer className="border-t border-white/5 py-6 text-center text-xs text-white/20">
-        Powered by REST Countries · OpenWeatherMap · Google Gemini
+      <footer
+        className="py-8 text-center text-xs tracking-widest uppercase"
+        style={{ borderTop: "1px solid var(--border)", color: "var(--text-muted)" }}
+      >
+        REST Countries &nbsp;·&nbsp; OpenWeatherMap &nbsp;·&nbsp; Groq &nbsp;·&nbsp; Frankfurter
       </footer>
     </main>
   );

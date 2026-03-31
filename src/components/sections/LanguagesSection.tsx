@@ -1,7 +1,5 @@
 import Section from "@/components/ui/Section";
 
-const ACCENT = "#c084fc";
-
 interface LanguagesSectionProps {
   languages: { code: string; name: string }[];
   delay?: number;
@@ -9,16 +7,27 @@ interface LanguagesSectionProps {
 
 export default function LanguagesSection({ languages, delay }: LanguagesSectionProps) {
   return (
-    <Section icon="🗣️" title="Official Languages" accent={ACCENT} delay={delay}>
+    <Section title="Official Languages" delay={delay}>
       <div className="flex flex-wrap gap-2">
         {languages.map((lang) => (
-          <span
+          <div
             key={lang.code}
-            className="rounded-xl px-4 py-2 text-sm font-semibold"
-            style={{ background: `${ACCENT}18`, color: ACCENT, border: `1px solid ${ACCENT}30` }}
+            className="rounded-lg px-3 py-2"
+            style={{
+              background: "var(--bg-raised)",
+              border: "1px solid var(--border-mid)",
+            }}
           >
-            {lang.name}
-          </span>
+            <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+              {lang.name}
+            </p>
+            <p
+              className="text-[10px] font-medium uppercase tracking-wider"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {lang.code}
+            </p>
+          </div>
         ))}
       </div>
     </Section>

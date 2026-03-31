@@ -1,7 +1,5 @@
 import Section from "@/components/ui/Section";
 
-const ACCENT = "#fb923c";
-
 interface DishesSectionProps {
   dishes: { name: string; description: string }[] | null;
   delay?: number;
@@ -10,25 +8,30 @@ interface DishesSectionProps {
 export default function DishesSection({ dishes, delay }: DishesSectionProps) {
   if (!dishes) {
     return (
-      <Section icon="🍽️" title="Must-Try Dishes" accent={ACCENT} delay={delay}>
-        <p className="text-sm text-white/30">Dishes data unavailable</p>
+      <Section title="Must-Try Dishes" delay={delay}>
+        <p className="text-sm" style={{ color: "var(--text-muted)" }}>Dishes data unavailable</p>
       </Section>
     );
   }
 
   return (
-    <Section icon="🍽️" title="Must-Try Dishes" accent={ACCENT} delay={delay}>
-      <div className="space-y-2">
+    <Section title="Must-Try Dishes" delay={delay}>
+      <div className="divide-y" style={{ borderColor: "var(--border-mid)" }}>
         {dishes.map((dish, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-4 rounded-xl px-4 py-3"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
-          >
-            <span className="text-xl">{["🥘", "🍜", "🥗", "🍱", "🥙"][i % 5]}</span>
+          <div key={i} className="flex items-start gap-4 py-3 first:pt-0 last:pb-0">
+            <span
+              className="mt-0.5 shrink-0 font-display text-base font-medium tabular-nums"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
             <div>
-              <p className="text-sm font-bold text-white">{dish.name}</p>
-              <p className="text-sm text-white/65">{dish.description}</p>
+              <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                {dish.name}
+              </p>
+              <p className="mt-0.5 text-sm" style={{ color: "var(--text-secondary)" }}>
+                {dish.description}
+              </p>
             </div>
           </div>
         ))}

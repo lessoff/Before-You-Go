@@ -1,7 +1,5 @@
 import Section from "@/components/ui/Section";
 
-const ACCENT = "#38bdf8";
-
 interface WeatherSectionProps {
   weather: {
     current: { temp: number; description: string; icon: string };
@@ -27,37 +25,56 @@ function fmtDay(d: string) {
 export default function WeatherSection({ weather, delay }: WeatherSectionProps) {
   if (!weather) {
     return (
-      <Section icon="🌤️" title="Weather & Forecast" accent={ACCENT} delay={delay}>
-        <p className="text-sm text-white/30">Weather data unavailable</p>
+      <Section title="Weather & Forecast" delay={delay}>
+        <p className="text-sm" style={{ color: "var(--text-muted)" }}>Weather data unavailable</p>
       </Section>
     );
   }
 
   return (
-    <Section icon="🌤️" title="Weather & Forecast" accent={ACCENT} delay={delay}>
+    <Section title="Weather & Forecast" delay={delay}>
       <div className="space-y-5">
         {/* Current */}
         <div className="flex items-center gap-4">
-          <img src={iconUrl(weather.current.icon)} alt="" className="h-16 w-16 drop-shadow-lg" />
+          <img src={iconUrl(weather.current.icon)} alt="" className="h-14 w-14 opacity-90" />
           <div>
-            <p className="text-5xl font-bold text-white">{weather.current.temp}°</p>
-            <p className="mt-0.5 text-sm capitalize text-white/65">{weather.current.description}</p>
+            <p
+              className="font-display text-5xl font-semibold tracking-tight"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {weather.current.temp}°
+            </p>
+            <p className="mt-0.5 text-sm capitalize" style={{ color: "var(--text-secondary)" }}>
+              {weather.current.description}
+            </p>
           </div>
         </div>
 
-        {/* Forecast row */}
+        {/* Divider */}
+        <div className="h-px" style={{ background: "var(--border-mid)" }} />
+
+        {/* Forecast */}
         {weather.forecast.length > 0 && (
           <div className="flex gap-2 overflow-x-auto pb-1">
             {weather.forecast.map((day) => (
               <div
                 key={day.date}
-                className="flex min-w-[76px] flex-shrink-0 flex-col items-center rounded-xl py-3"
-                style={{ background: `${ACCENT}10`, border: `1px solid ${ACCENT}22` }}
+                className="flex min-w-[72px] shrink-0 flex-col items-center rounded-lg py-3"
+                style={{
+                  background: "var(--bg-raised)",
+                  border: "1px solid var(--border-mid)",
+                }}
               >
-                <span className="text-xs font-medium text-white/65">{fmtDay(day.date)}</span>
-                <img src={iconUrl(day.icon)} alt="" className="my-1 h-9 w-9" />
-                <span className="text-xs font-semibold text-white">{day.tempMax}°</span>
-                <span className="text-xs text-white/55">{day.tempMin}°</span>
+                <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>
+                  {fmtDay(day.date)}
+                </span>
+                <img src={iconUrl(day.icon)} alt="" className="my-1 h-9 w-9 opacity-80" />
+                <span className="text-xs font-semibold" style={{ color: "var(--text-primary)" }}>
+                  {day.tempMax}°
+                </span>
+                <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+                  {day.tempMin}°
+                </span>
               </div>
             ))}
           </div>

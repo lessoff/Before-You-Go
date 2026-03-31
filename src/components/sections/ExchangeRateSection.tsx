@@ -3,8 +3,6 @@
 import { useState } from "react";
 import Section from "@/components/ui/Section";
 
-const ACCENT = "#f59e0b";
-
 interface ExchangeRateSectionProps {
   currency: { code: string; name: string; symbol: string };
   exchangeRate: { from: string; to: string; rate: number };
@@ -23,73 +21,81 @@ export default function ExchangeRateSection({
 
   const formattedConverted =
     converted !== null
-      ? converted.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
+      ? converted.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
       : "—";
 
   return (
-    <Section icon="💱" title="Currency & Exchange Rate" accent={ACCENT} delay={delay}>
+    <Section title="Currency & Exchange Rate" delay={delay}>
       <div className="space-y-5">
-        {/* Currency info */}
-        <div className="flex items-center gap-3">
-          <div
-            className="flex h-10 w-10 items-center justify-center rounded-xl text-lg font-black"
-            style={{ background: `${ACCENT}22`, color: ACCENT }}
-          >
-            {currency.symbol}
-          </div>
+        {/* Currency info row */}
+        <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-white">{currency.code}</p>
-            <p className="text-xs text-white/65">{currency.name}</p>
+            <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+              {currency.code}
+            </p>
+            <p className="text-xs" style={{ color: "var(--text-muted)" }}>{currency.name}</p>
           </div>
           <div
-            className="ml-auto rounded-lg px-3 py-1 text-xs font-semibold"
-            style={{ background: `${ACCENT}18`, color: ACCENT }}
+            className="rounded-lg px-3 py-1.5 text-xs font-medium"
+            style={{
+              background: "var(--accent-dim)",
+              color: "var(--accent)",
+              border: "1px solid var(--accent-border)",
+            }}
           >
             1 USD = {exchangeRate.rate.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 4 })} {currency.code}
           </div>
         </div>
 
         {/* Divider */}
-        <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
+        <div className="h-px" style={{ background: "var(--border-mid)" }} />
 
         {/* Calculator */}
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/55">
+          <p
+            className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em]"
+            style={{ color: "var(--text-muted)" }}
+          >
             Calculator
           </p>
           <div className="flex items-stretch gap-3">
-            {/* USD input */}
             <div
-              className="flex flex-1 items-center gap-2 rounded-xl px-4 py-3"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
+              className="flex flex-1 items-center gap-2 rounded-lg px-4 py-3"
+              style={{
+                background: "var(--bg-raised)",
+                border: "1px solid var(--border-mid)",
+              }}
             >
-              <span className="text-sm font-semibold text-white/40">USD</span>
-              <span className="text-white/20">$</span>
+              <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>USD</span>
               <input
                 type="text"
                 inputMode="decimal"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full bg-transparent text-right text-lg font-bold text-white outline-none placeholder:text-white/20"
+                className="w-full bg-transparent text-right text-base font-semibold outline-none"
+                style={{ color: "var(--text-primary)" }}
                 placeholder="0"
               />
             </div>
 
-            {/* Arrow */}
-            <div className="flex items-center text-white/20 text-lg select-none">→</div>
-
-            {/* Result */}
             <div
-              className="flex flex-1 items-center justify-between gap-2 rounded-xl px-4 py-3"
-              style={{ background: `${ACCENT}12`, border: `1px solid ${ACCENT}30` }}
+              className="flex items-center text-sm select-none"
+              style={{ color: "var(--text-muted)" }}
             >
-              <span className="text-sm font-semibold" style={{ color: `${ACCENT}99` }}>
+              →
+            </div>
+
+            <div
+              className="flex flex-1 items-center justify-between gap-2 rounded-lg px-4 py-3"
+              style={{
+                background: "var(--accent-dim)",
+                border: "1px solid var(--accent-border)",
+              }}
+            >
+              <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
                 {currency.code}
               </span>
-              <span className="text-lg font-bold" style={{ color: ACCENT }}>
+              <span className="text-base font-semibold" style={{ color: "var(--accent)" }}>
                 {currency.symbol}{formattedConverted}
               </span>
             </div>

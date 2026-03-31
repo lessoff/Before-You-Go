@@ -18,44 +18,48 @@ interface BriefingListProps {
 
 export default function BriefingList({ data }: BriefingListProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       {/* Country header */}
-      <div
-        className="animate-fade-in-up mb-8 overflow-hidden rounded-3xl p-8 text-center"
-        style={{
-          background: "linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1))",
-          border: "1px solid rgba(99,102,241,0.3)",
-        }}
-      >
-        <p className="text-7xl">{data.flag}</p>
-        <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-white">
-          {data.country}
-        </h2>
-        <p className="mt-2 text-sm font-medium text-white/40 uppercase tracking-widest">
-          {data.capital} &nbsp;·&nbsp; {data.region}
-        </p>
+      <div className="animate-fade-in-up pb-8" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="flex items-center gap-6">
+          <span className="text-6xl leading-none">{data.flag}</span>
+          <div>
+            <h2
+              className="font-display text-5xl font-semibold leading-none tracking-tight sm:text-6xl"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {data.country}
+            </h2>
+            <p
+              className="mt-2 text-xs font-medium uppercase tracking-[0.2em]"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {data.capital} &nbsp;·&nbsp; {data.region}
+            </p>
+          </div>
+        </div>
       </div>
 
       <TimeSection timezone={data.time.timezone} delay={0} />
       <VisaSection destinationCountry={data.country} delay={60} />
       {data.bestMonths && data.bestMonths.length > 0 && (
-        <BestMonthsSection bestMonths={data.bestMonths} delay={60} />
+        <BestMonthsSection bestMonths={data.bestMonths} delay={120} />
       )}
       {data.currency && data.exchangeRate && (
         <ExchangeRateSection
           currency={data.currency}
           exchangeRate={data.exchangeRate}
-          delay={120}
+          delay={180}
         />
       )}
-      <SafetySection safety={data.safety} delay={180} />
-      <WeatherSection weather={data.weather} delay={120} />
-      <LanguagesSection languages={data.languages} delay={180} />
-      <PhrasesSection phrases={data.phrases} delay={240} />
-      <CustomsSection customs={data.customs} delay={300} />
-      <DishesSection dishes={data.dishes} delay={360} />
-      <PowerSection power={data.power} delay={420} />
+      <SafetySection safety={data.safety} delay={240} />
+      <WeatherSection weather={data.weather} delay={300} />
+      <LanguagesSection languages={data.languages} delay={360} />
+      <PhrasesSection phrases={data.phrases} delay={420} />
       <TransportSection transport={data.transport} delay={480} />
+      <CustomsSection customs={data.customs} delay={540} />
+      <DishesSection dishes={data.dishes} delay={600} />
+      <PowerSection power={data.power} delay={660} />
     </div>
   );
 }

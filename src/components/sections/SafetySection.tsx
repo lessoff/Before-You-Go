@@ -1,7 +1,5 @@
 import Section from "@/components/ui/Section";
 
-const ACCENT = "#f43f5e";
-
 interface SafetySectionProps {
   safety: {
     level: "low" | "moderate" | "high" | "extreme";
@@ -12,17 +10,17 @@ interface SafetySectionProps {
 }
 
 const levelConfig = {
-  low: { label: "Low Risk", color: "#22c55e", bg: "#22c55e18" },
-  moderate: { label: "Moderate Risk", color: "#f59e0b", bg: "#f59e0b18" },
-  high: { label: "High Risk", color: "#f97316", bg: "#f9731618" },
-  extreme: { label: "Extreme Risk", color: "#f43f5e", bg: "#f43f5e18" },
+  low:      { label: "Low Risk",      color: "var(--safe)" },
+  moderate: { label: "Moderate Risk", color: "var(--warn)" },
+  high:     { label: "High Risk",     color: "#c97d50" },
+  extreme:  { label: "Extreme Risk",  color: "var(--danger)" },
 };
 
 export default function SafetySection({ safety, delay }: SafetySectionProps) {
   if (!safety) {
     return (
-      <Section icon="🛡️" title="Safety Status" accent={ACCENT} delay={delay}>
-        <p className="text-sm text-white/30">Safety data unavailable</p>
+      <Section title="Safety Status" delay={delay}>
+        <p className="text-sm" style={{ color: "var(--text-muted)" }}>Safety data unavailable</p>
       </Section>
     );
   }
@@ -30,25 +28,35 @@ export default function SafetySection({ safety, delay }: SafetySectionProps) {
   const cfg = levelConfig[safety.level];
 
   return (
-    <Section icon="🛡️" title="Safety Status" accent={ACCENT} delay={delay}>
+    <Section title="Safety Status" delay={delay}>
       <div className="space-y-4">
         <div className="flex items-start gap-4">
           <span
-            className="mt-0.5 flex-shrink-0 rounded-xl px-3 py-1.5 text-sm font-bold"
-            style={{ color: cfg.color, background: cfg.bg }}
+            className="mt-0.5 shrink-0 rounded px-2.5 py-1 text-xs font-semibold uppercase tracking-wider"
+            style={{
+              color: cfg.color,
+              background: `color-mix(in srgb, ${cfg.color} 12%, transparent)`,
+              border: `1px solid color-mix(in srgb, ${cfg.color} 25%, transparent)`,
+            }}
           >
             {cfg.label}
           </span>
-          <p className="text-sm leading-relaxed text-white/80">{safety.summary}</p>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-primary)" }}>
+            {safety.summary}
+          </p>
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           {safety.tips.map((tip, i) => (
             <div
               key={i}
-              className="rounded-xl p-3 text-sm text-white/70"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="rounded-lg p-3 text-sm"
+              style={{
+                background: "var(--bg-raised)",
+                border: "1px solid var(--border-mid)",
+                color: "var(--text-secondary)",
+              }}
             >
-              <span className="mr-2 text-rose-400">→</span>
+              <span className="mr-2 font-light" style={{ color: "var(--accent)" }}>—</span>
               {tip}
             </div>
           ))}

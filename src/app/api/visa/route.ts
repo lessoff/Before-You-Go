@@ -1,9 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { rateLimit, getIP } from "@/lib/ratelimit";
+
+// 15 requests per minute per IP
+const LIMIT = 15;
+const WINDOW_MS = 60_000;
 
 export async function GET(request: NextRequest) {
-  const from = request.nextUrl.searchParams.get("from");
-  const to = request.nextUrl.searchParams.get("to");
+  const { allowed, retryAfterSecs } = rateLimit(getIP(request), LIMIT, WINDOW_MS);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait before trying again." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(retryAfterSecs),
+          "X-RateLimit-Limit": String(LIMIT),
+          "X-RateLimit-Remaining": "0",
+        },
+      }
+    );
+  }
+
+  const from = request.nextUrl.searchParams.get("from")?.trim().slice(0, 100) ?? null;
+  const to = request.nextUrl.searchParams.get("to")?.trim().slice(0, 100) ?? null;
 
   if (!from || !to) {
     return NextResponse.json({ error: "Missing from or to parameter" }, { status: 400 });

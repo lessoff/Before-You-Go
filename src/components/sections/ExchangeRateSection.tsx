@@ -21,22 +21,25 @@ export default function ExchangeRateSection({
 
   const formattedConverted =
     converted !== null
-      ? converted.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      ? converted >= 10000
+        ? converted.toLocaleString("en-US", { maximumFractionDigits: 0 })
+        : converted >= 100
+        ? converted.toLocaleString("en-US", { maximumFractionDigits: 1 })
+        : converted.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
       : "—";
 
   return (
-    <Section title="Currency & Exchange Rate" delay={delay}>
+    <Section title="Exchange Rate" delay={delay}>
       <div className="space-y-5">
         {/* Currency info row */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2">
           <div>
             <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-              {currency.code}
+              {currency.code} · {currency.name}
             </p>
-            <p className="text-xs" style={{ color: "var(--text-muted)" }}>{currency.name}</p>
           </div>
           <div
-            className="rounded-lg px-3 py-1.5 text-xs font-medium"
+            className="self-start rounded-lg px-3 py-1.5 text-xs font-medium"
             style={{
               background: "var(--accent-dim)",
               color: "var(--accent)",
@@ -58,44 +61,44 @@ export default function ExchangeRateSection({
           >
             Calculator
           </p>
-          <div className="flex items-stretch gap-3">
+          <div className="flex items-stretch gap-2">
             <div
-              className="flex flex-1 items-center gap-2 rounded-lg px-4 py-3"
+              className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden rounded-lg px-3 py-3"
               style={{
                 background: "var(--bg-raised)",
                 border: "1px solid var(--border-mid)",
               }}
             >
-              <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>USD</span>
+              <span className="shrink-0 text-xs font-medium" style={{ color: "var(--text-muted)" }}>USD</span>
               <input
                 type="text"
                 inputMode="decimal"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full bg-transparent text-right text-base font-semibold outline-none"
+                className="min-w-0 flex-1 bg-transparent text-right text-base font-semibold outline-none"
                 style={{ color: "var(--text-primary)" }}
                 placeholder="0"
               />
             </div>
 
             <div
-              className="flex items-center text-sm select-none"
+              className="flex shrink-0 items-center text-sm select-none"
               style={{ color: "var(--text-muted)" }}
             >
               →
             </div>
 
             <div
-              className="flex flex-1 items-center justify-between gap-2 rounded-lg px-4 py-3"
+              className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden rounded-lg px-3 py-3"
               style={{
                 background: "var(--accent-dim)",
                 border: "1px solid var(--accent-border)",
               }}
             >
-              <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
+              <span className="shrink-0 text-xs font-medium" style={{ color: "var(--text-muted)" }}>
                 {currency.code}
               </span>
-              <span className="text-base font-semibold" style={{ color: "var(--accent)" }}>
+              <span className="min-w-0 flex-1 text-right text-base font-semibold" style={{ color: "var(--accent)" }}>
                 {currency.symbol}{formattedConverted}
               </span>
             </div>

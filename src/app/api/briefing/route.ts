@@ -4,10 +4,30 @@ import { fetchWeather } from "@/lib/api/openweathermap";
 import { fetchAIContent } from "@/lib/api/gemini";
 import { fetchExchangeRate } from "@/lib/api/exchangerate";
 import { getPowerInfo } from "@/lib/powerdata";
+import { rateLimit, getIP } from "@/lib/ratelimit";
 import type { BriefingResponse } from "@/lib/types";
 
+// 10 requests per minute per IP — hits 4 external APIs including Groq
+const LIMIT = 10;
+const WINDOW_MS = 60_000;
+
 export async function GET(request: NextRequest) {
-  const country = request.nextUrl.searchParams.get("country");
+  const { allowed, remaining, retryAfterSecs } = rateLimit(getIP(request), LIMIT, WINDOW_MS);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait before trying again." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(retryAfterSecs),
+          "X-RateLimit-Limit": String(LIMIT),
+          "X-RateLimit-Remaining": "0",
+        },
+      }
+    );
+  }
+
+  const country = request.nextUrl.searchParams.get("country")?.trim().slice(0, 100) ?? null;
 
   if (!country) {
     return NextResponse.json(
@@ -83,5 +103,7 @@ export async function GET(request: NextRequest) {
     bestMonths: aiContent?.bestMonths ?? null,
   };
 
-  return NextResponse.json(briefing);
+  return NextResponse.json(briefing, {
+    headers: { "X-RateLimit-Remaining": String(remaining) },
+  });
 }

@@ -17,12 +17,15 @@ export async function fetchWeather(
   city: string,
   apiKey: string
 ): Promise<WeatherResult> {
+  // Weather is cached for 30 minutes — fresh enough for a travel briefing
   const [currentRes, forecastRes] = await Promise.all([
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`,
+      { next: { revalidate: 1800 } }
     ),
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`,
+      { next: { revalidate: 1800 } }
     ),
   ]);
 

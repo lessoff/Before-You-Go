@@ -1,11 +1,22 @@
 import Groq from "groq-sdk";
 import type { GeminiResponse } from "../types";
 
+// In-memory cache for AI content — phrases/customs/dishes don't change.
+// Keyed by country name (lowercase), TTL 24 hours.
+const cache = new Map<string, { value: GeminiResponse; expiresAt: number }>();
+const TTL = 24 * 60 * 60 * 1000;
+
 export async function fetchAIContent(
   country: string,
   capital: string,
   apiKey: string
 ): Promise<GeminiResponse> {
+  const cacheKey = country.toLowerCase();
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() < cached.expiresAt) {
+    return cached.value;
+  }
+
   const groq = new Groq({ apiKey });
 
   const prompt = `You are a travel expert. For the country "${country}" (capital: "${capital}"), provide travel briefing information in JSON format.
@@ -26,5 +37,8 @@ Return a JSON object with these exact fields:
 
   const raw = response.choices[0]?.message?.content ?? "";
   const parsed = JSON.parse(raw) as GeminiResponse;
+
+  cache.set(cacheKey, { value: parsed, expiresAt: Date.now() + TTL });
+
   return parsed;
 }

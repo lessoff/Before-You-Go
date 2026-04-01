@@ -13,13 +13,16 @@ export async function fetchCountryData(
   country: string
 ): Promise<CountryData> {
   // Try exact match first, then partial
+  // Country metadata is stable — cache for 24 hours
   let res = await fetch(
-    `https://restcountries.com/v3.1/name/${encodeURIComponent(country)}?fullText=true`
+    `https://restcountries.com/v3.1/name/${encodeURIComponent(country)}?fullText=true`,
+    { next: { revalidate: 86400 } }
   );
 
   if (!res.ok) {
     res = await fetch(
-      `https://restcountries.com/v3.1/name/${encodeURIComponent(country)}`
+      `https://restcountries.com/v3.1/name/${encodeURIComponent(country)}`,
+      { next: { revalidate: 86400 } }
     );
   }
 

@@ -52,13 +52,13 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
 
         {/* Voltage & Frequency */}
         <div
-          className="flex gap-8 rounded-lg px-5 py-4"
+          className="flex overflow-hidden rounded-lg"
           style={{
             background: "var(--bg-raised)",
             border: "1px solid var(--border-mid)",
           }}
         >
-          <div>
+          <div className="flex-1 min-w-0 px-4 py-3">
             <p
               className="text-[10px] font-semibold uppercase tracking-[0.2em]"
               style={{ color: "var(--text-muted)" }}
@@ -66,14 +66,14 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
               Voltage
             </p>
             <p
-              className="mt-1 font-display text-2xl font-semibold"
+              className="mt-1 font-display text-xl font-semibold truncate"
               style={{ color: "var(--text-primary)" }}
             >
               {power.voltage}
             </p>
           </div>
-          <div className="w-px self-stretch" style={{ background: "var(--border-mid)" }} />
-          <div>
+          <div className="w-px self-stretch shrink-0" style={{ background: "var(--border-mid)" }} />
+          <div className="flex-1 min-w-0 px-4 py-3">
             <p
               className="text-[10px] font-semibold uppercase tracking-[0.2em]"
               style={{ color: "var(--text-muted)" }}
@@ -81,7 +81,7 @@ export default function PowerSection({ power, delay }: PowerSectionProps) {
               Frequency
             </p>
             <p
-              className="mt-1 font-display text-2xl font-semibold"
+              className="mt-1 font-display text-xl font-semibold truncate"
               style={{ color: "var(--text-primary)" }}
             >
               {power.frequency}

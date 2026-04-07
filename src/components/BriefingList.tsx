@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import type { BriefingResponse } from "@/lib/types";
 import TimeSection from "@/components/sections/TimeSection";
 import SafetySection from "@/components/sections/SafetySection";
@@ -19,6 +22,14 @@ interface BriefingListProps {
 export default function BriefingList({ data }: BriefingListProps) {
   const hasBestMonths = data.bestMonths && data.bestMonths.length > 0;
   const hasExchange = data.currency && data.exchangeRate;
+  const [copied, setCopied] = useState(false);
+
+  function handleShare() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   return (
     <div className="space-y-4">
@@ -26,7 +37,7 @@ export default function BriefingList({ data }: BriefingListProps) {
       <div className="animate-fade-in-up pb-6" style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="flex items-center gap-6">
           <span className="text-6xl leading-none">{data.flag}</span>
-          <div>
+          <div className="flex-1">
             <h2
               className="font-display text-5xl font-semibold leading-none tracking-tight sm:text-6xl"
               style={{ color: "var(--text-primary)" }}
@@ -40,6 +51,32 @@ export default function BriefingList({ data }: BriefingListProps) {
               {data.capital} &nbsp;·&nbsp; {data.region}
             </p>
           </div>
+          <button
+            onClick={handleShare}
+            className="shrink-0 flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all"
+            style={{
+              background: copied ? "var(--bg-raised)" : "var(--bg-card)",
+              border: "1px solid var(--border)",
+              color: copied ? "var(--accent)" : "var(--text-muted)",
+            }}
+          >
+            {copied ? (
+              <>
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path d="M2 7L5 10L11 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Copied
+              </>
+            ) : (
+              <>
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path d="M8.5 1H11.5C11.7761 1 12 1.22386 12 1.5V11.5C12 11.7761 11.7761 12 11.5 12H1.5C1.22386 12 1 11.7761 1 11.5V8.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                  <path d="M5 1H1V7H5V1Z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Share
+              </>
+            )}
+          </button>
         </div>
       </div>
 

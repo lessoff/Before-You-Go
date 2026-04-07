@@ -15,7 +15,7 @@ interface BestMonthsSectionProps {
 export default function BestMonthsSection({ bestMonths, delay }: BestMonthsSectionProps) {
   return (
     <Section title="Best Months to Visit" delay={delay}>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col gap-2">
         {bestMonths.map((month) => {
           const season = SEASON_LABEL[month] ?? "";
           return (

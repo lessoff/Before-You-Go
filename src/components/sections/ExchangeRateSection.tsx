@@ -89,7 +89,7 @@ export default function ExchangeRateSection({
             </div>
 
             <div
-              className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden rounded-lg px-3 py-3"
+              className="flex min-w-0 flex-1 flex-col gap-0.5 overflow-hidden rounded-lg px-3 py-3"
               style={{
                 background: "var(--accent-dim)",
                 border: "1px solid var(--accent-border)",
@@ -98,7 +98,7 @@ export default function ExchangeRateSection({
               <span className="shrink-0 text-xs font-medium" style={{ color: "var(--text-muted)" }}>
                 {currency.code}
               </span>
-              <span className="min-w-0 flex-1 text-right text-base font-semibold" style={{ color: "var(--accent)" }}>
+              <span className="w-full truncate text-sm font-semibold" style={{ color: "var(--accent)" }}>
                 {currency.symbol}{formattedConverted}
               </span>
             </div>

@@ -1,26 +1,45 @@
 "use client";
 
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 import BriefingList from "@/components/BriefingList";
 import SectionSkeleton from "@/components/ui/SectionSkeleton";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { useBriefing } from "@/hooks/useBriefing";
-import { useRef, useState } from "react";
 
-export default function Home() {
+function HomeContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { data, loading, error, fetchBriefing } = useBriefing();
   const lastQuery = useRef("");
   const [heroCollapsed, setHeroCollapsed] = useState(false);
+  const initializedFromUrl = useRef(false);
+
+  // On mount, load country from URL param
+  useEffect(() => {
+    if (initializedFromUrl.current) return;
+    initializedFromUrl.current = true;
+    const countryParam = searchParams.get("country");
+    if (countryParam) {
+      lastQuery.current = countryParam;
+      fetchBriefing(countryParam);
+      setHeroCollapsed(true);
+    }
+  }, [searchParams, fetchBriefing]);
 
   function handleSearch(country: string) {
     lastQuery.current = country;
     fetchBriefing(country);
     if (!heroCollapsed) setHeroCollapsed(true);
+    router.replace(`/?country=${encodeURIComponent(country)}`, { scroll: false });
   }
 
   function handleRetry() {
     if (lastQuery.current) fetchBriefing(lastQuery.current);
   }
+
+  const initialCountry = searchParams.get("country") ?? undefined;
 
   return (
     <main className="min-h-screen">
@@ -34,7 +53,7 @@ export default function Home() {
           borderBottom: heroCollapsed ? "1px solid var(--border)" : "none",
           backdropFilter: heroCollapsed ? "blur(16px)" : "none",
           background: heroCollapsed
-            ? "rgba(226, 223, 217, 0.92)"
+            ? "var(--bg-header)"
             : "transparent",
           transition: "background 0.5s ease",
           textAlign: "center",
@@ -100,7 +119,7 @@ export default function Home() {
               transition: "padding 0.65s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
-            <SearchBar onSearch={handleSearch} isLoading={loading} />
+            <SearchBar onSearch={handleSearch} isLoading={loading} initialValue={initialCountry} />
           </div>
         </div>
       </div>
@@ -138,5 +157,13 @@ export default function Home() {
         REST Countries &nbsp;·&nbsp; OpenWeatherMap &nbsp;·&nbsp; Groq &nbsp;·&nbsp; Frankfurter
       </footer>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
   );
 }

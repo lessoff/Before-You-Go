@@ -33,6 +33,8 @@ export default function Section({ title, children, delay = 0 }: SectionProps) {
         style={{
           background: "var(--bg-card)",
           border: "1px solid var(--border)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
         }}
       >
         {children}

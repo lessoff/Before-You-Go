@@ -6,10 +6,11 @@ import { searchCountries, type CountryOption } from "@/lib/countries";
 interface SearchBarProps {
   onSearch: (country: string) => void;
   isLoading: boolean;
+  initialValue?: string;
 }
 
-export default function SearchBar({ onSearch, isLoading }: SearchBarProps) {
-  const [query, setQuery] = useState("");
+export default function SearchBar({ onSearch, isLoading, initialValue }: SearchBarProps) {
+  const [query, setQuery] = useState(initialValue ?? "");
   const [suggestions, setSuggestions] = useState<CountryOption[]>([]);
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(-1);

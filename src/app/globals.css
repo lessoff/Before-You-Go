@@ -7,25 +7,27 @@
 }
 
 :root {
-  --bg: #e2dfd9;
-  --bg-card: #ffffff;
-  --bg-raised: #eeebe6;
-  --border: #d4d0c9;
-  --border-mid: #c4c0b8;
-  --text-primary: #18191a;
-  --text-secondary: #4c5249;
-  --text-muted: #7c8479;
-  --accent: #526b5a;
-  --accent-dim: rgba(82, 107, 90, 0.10);
-  --accent-border: rgba(82, 107, 90, 0.25);
-  --safe: #3d7a52;
-  --warn: #a06c0c;
-  --danger: #b83228;
-  --info: #2860a0;
+  --bg: #ddf0e9;
+  --bg-card: rgba(255, 255, 255, 0.58);
+  --bg-raised: rgba(255, 255, 255, 0.82);
+  --bg-header: rgba(210, 238, 228, 0.90);
+  --border: rgba(60, 160, 125, 0.18);
+  --border-mid: rgba(60, 160, 125, 0.30);
+  --text-primary: #0b1e17;
+  --text-secondary: #285444;
+  --text-muted: #5e9484;
+  --accent: #0b9070;
+  --accent-dim: rgba(11, 144, 112, 0.10);
+  --accent-border: rgba(11, 144, 112, 0.28);
+  --safe: #0b9070;
+  --warn: #c47d0a;
+  --danger: #c8302a;
+  --info: #1a6aab;
 }
 
 body {
-  background-color: var(--bg);
+  background: linear-gradient(150deg, #c8e6d8 0%, #dff0e8 45%, #edf8f3 100%);
+  background-attachment: fixed;
   min-height: 100vh;
   color: var(--text-primary);
   font-family: var(--font-sans);

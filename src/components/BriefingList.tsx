@@ -14,6 +14,8 @@ import TransportSection from "@/components/sections/TransportSection";
 import BestMonthsSection from "@/components/sections/BestMonthsSection";
 import ExchangeRateSection from "@/components/sections/ExchangeRateSection";
 import VisaSection from "@/components/sections/VisaSection";
+import EmergencySection from "@/components/sections/EmergencySection";
+import HolidaysSection from "@/components/sections/HolidaysSection";
 
 interface BriefingListProps {
   data: BriefingResponse;
@@ -22,6 +24,8 @@ interface BriefingListProps {
 export default function BriefingList({ data }: BriefingListProps) {
   const hasBestMonths = data.bestMonths && data.bestMonths.length > 0;
   const hasExchange = data.currency && data.exchangeRate;
+  const hasEmergency = !!data.emergency;
+  const hasHolidays = data.holidays && data.holidays.length > 0;
   const [copied, setCopied] = useState(false);
 
   function handleShare() {
@@ -122,25 +126,37 @@ export default function BriefingList({ data }: BriefingListProps) {
           <WeatherSection weather={data.weather} delay={360} />
         </div>
 
-        {/* Row 4: Phrases (2) + Transport (2) */}
+        {/* Row 4: Emergency (2) + Holidays (2) */}
+        {hasEmergency && (
+          <div className="lg:col-span-2">
+            <EmergencySection emergency={data.emergency!} delay={420} />
+          </div>
+        )}
+        {hasHolidays && (
+          <div className={hasEmergency ? "lg:col-span-2" : "lg:col-span-4"}>
+            <HolidaysSection holidays={data.holidays!} delay={480} />
+          </div>
+        )}
+
+        {/* Row 5: Phrases (2) + Transport (2) */}
         <div className="lg:col-span-2">
-          <PhrasesSection phrases={data.phrases} delay={420} />
+          <PhrasesSection phrases={data.phrases} delay={540} />
         </div>
         <div className="lg:col-span-2">
-          <TransportSection transport={data.transport} delay={480} />
+          <TransportSection transport={data.transport} delay={600} />
         </div>
 
-        {/* Row 5: Customs (full width) */}
+        {/* Row 6: Customs (full width) */}
         <div className="lg:col-span-4">
-          <CustomsSection customs={data.customs} delay={540} />
+          <CustomsSection customs={data.customs} delay={660} />
         </div>
 
-        {/* Row 6: Dishes (3) + Power (1) */}
+        {/* Row 7: Dishes (3) + Power (1) */}
         <div className="lg:col-span-3">
-          <DishesSection dishes={data.dishes} delay={600} />
+          <DishesSection dishes={data.dishes} delay={720} />
         </div>
         <div className="lg:col-span-1">
-          <PowerSection power={data.power} delay={660} />
+          <PowerSection power={data.power} delay={780} />
         </div>
 
       </div>

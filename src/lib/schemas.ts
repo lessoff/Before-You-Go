@@ -7,6 +7,12 @@ export const geminiResponseSchema = z.object({
     summary: z.string(),
     tips: z.array(z.string()),
   }),
+  emergency: z.object({
+    police: z.string(),
+    ambulance: z.string(),
+    fire: z.string(),
+    tourist: z.string().optional(),
+  }),
   phrases: z.array(
     z.object({
       english: z.string(),
@@ -123,4 +129,21 @@ export const briefingResponseSchema = z.object({
     )
     .nullable(),
   bestMonths: z.array(z.string()).nullable(),
+  emergency: z
+    .object({
+      police: z.string(),
+      ambulance: z.string(),
+      fire: z.string(),
+      tourist: z.string().optional(),
+    })
+    .nullable(),
+  holidays: z
+    .array(
+      z.object({
+        date: z.string(),
+        name: z.string(),
+        localName: z.string(),
+      })
+    )
+    .nullable(),
 });

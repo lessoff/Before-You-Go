@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchCountryData } from "@/lib/api/restcountries";
-import { fetchWeather } from "@/lib/api/openweathermap";
+import { fetchWeather } from "@/lib/api/openmeteo";
 import { fetchAIContent } from "@/lib/api/gemini";
 import { fetchExchangeRate } from "@/lib/api/exchangerate";
+import { fetchPublicHolidays } from "@/lib/api/holidays";
 import { getPowerInfo } from "@/lib/powerdata";
 import { rateLimit, getIP } from "@/lib/ratelimit";
 import type { BriefingResponse } from "@/lib/types";
@@ -47,19 +48,20 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const owmKey = process.env.OPENWEATHERMAP_API_KEY;
   const groqKey = process.env.GROQ_API_KEY;
 
-  // Step 2: Fetch weather, AI content, and exchange rate in parallel
+  // Step 2: Fetch weather, AI content, exchange rate, and holidays in parallel
   const destCurrencyCode = countryData.currency?.code ?? null;
-  const [weatherResult, aiResult, exchangeRateResult] = await Promise.allSettled([
-    owmKey ? fetchWeather(countryData.capital, owmKey) : Promise.reject("No API key"),
+  const currentYear = new Date().getFullYear();
+  const [weatherResult, aiResult, exchangeRateResult, holidaysResult] = await Promise.allSettled([
+    fetchWeather(countryData.capital),
     groqKey
       ? fetchAIContent(countryData.name, countryData.capital, groqKey)
       : Promise.reject("No API key"),
     destCurrencyCode && destCurrencyCode !== "USD"
       ? fetchExchangeRate("USD", destCurrencyCode)
       : Promise.resolve(destCurrencyCode === "USD" ? 1 : null),
+    fetchPublicHolidays(countryData.cca2, currentYear),
   ]);
 
   const weather =
@@ -68,6 +70,10 @@ export async function GET(request: NextRequest) {
     aiResult.status === "fulfilled" ? aiResult.value : null;
   const exchangeRateValue =
     exchangeRateResult.status === "fulfilled" ? exchangeRateResult.value : null;
+  const holidays =
+    holidaysResult.status === "fulfilled" && holidaysResult.value.length > 0
+      ? holidaysResult.value
+      : null;
 
   // Step 3: Build response
   const timezone = countryData.timezones[0] ?? "UTC";
@@ -101,6 +107,8 @@ export async function GET(request: NextRequest) {
     power,
     transport: aiContent?.transport ?? null,
     bestMonths: aiContent?.bestMonths ?? null,
+    emergency: aiContent?.emergency ?? null,
+    holidays,
   };
 
   return NextResponse.json(briefing, {

@@ -27,7 +27,8 @@ Return a JSON object with these exact fields:
 3. "phrases": array of exactly 5 helpful travel phrases in the most widely spoken local language. Each object has: "english", "local", "pronunciation"
 4. "customs": array of exactly 5 local customs or taboos. Each object has: "title", "description", "type": "do" or "dont"
 5. "dishes": array of exactly 5 must-try local dishes. Each object has: "name", "description"
-6. "transport": array of 3-5 popular transport apps or services. Each object has: "name", "description", "type": "rideshare"|"transit"|"bike"|"other"`;
+6. "transport": array of 3-5 popular transport apps or services. Each object has: "name", "description", "type": "rideshare"|"transit"|"bike"|"other"
+7. "emergency": object with the actual emergency phone numbers for this country: "police", "ambulance", "fire" (as digit strings like "110" or "999"), and "tourist" if a dedicated tourist helpline exists (omit if none)`;
 
   const response = await groq.chat.completions.create({
     model: "llama-3.3-70b-versatile",

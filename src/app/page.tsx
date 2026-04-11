@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
+import ThemeToggle from "@/components/ThemeToggle";
 import BriefingList from "@/components/BriefingList";
 import SectionSkeleton from "@/components/ui/SectionSkeleton";
 import ErrorMessage from "@/components/ui/ErrorMessage";
@@ -46,6 +47,7 @@ function HomeContent() {
 
   return (
     <main className="min-h-screen">
+      <ThemeToggle />
 
       {/* ── Hero / Search header ── */}
       <div

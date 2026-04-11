@@ -7,14 +7,18 @@ interface SearchBarProps {
   onSearch: (country: string) => void;
   isLoading: boolean;
   initialValue?: string;
+  recentCountries?: CountryOption[];
 }
 
-export default function SearchBar({ onSearch, isLoading, initialValue }: SearchBarProps) {
+export default function SearchBar({ onSearch, isLoading, initialValue, recentCountries = [] }: SearchBarProps) {
   const [query, setQuery] = useState(initialValue ?? "");
   const [suggestions, setSuggestions] = useState<CountryOption[]>([]);
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(-1);
+  const [focused, setFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const showRecent = focused && query.trim().length === 0 && recentCountries.length > 0;
 
   useEffect(() => {
     const results = searchCountries(query);
@@ -99,7 +103,11 @@ export default function SearchBar({ onSearch, isLoading, initialValue }: SearchB
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            onFocus={() => suggestions.length > 0 && setOpen(true)}
+            onFocus={() => {
+              setFocused(true);
+              if (suggestions.length > 0 && query.trim().length > 0) setOpen(true);
+            }}
+            onBlur={() => setTimeout(() => setFocused(false), 150)}
             placeholder="Enter a country name..."
             disabled={isLoading}
             autoComplete="off"
@@ -128,7 +136,7 @@ export default function SearchBar({ onSearch, isLoading, initialValue }: SearchB
         </div>
       </form>
 
-      {/* Dropdown */}
+      {/* Search suggestions dropdown */}
       {open && (
         <div
           className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-xl"
@@ -165,6 +173,55 @@ export default function SearchBar({ onSearch, isLoading, initialValue }: SearchB
               </button>
             );
           })}
+        </div>
+      )}
+
+      {/* Recently viewed dropdown */}
+      {showRecent && !open && (
+        <div
+          className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-xl"
+          style={{
+            background: "var(--bg-card)",
+            border: "1px solid var(--border)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
+          }}
+        >
+          <p
+            className="px-4 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-widest"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Recently viewed
+          </p>
+          {recentCountries.map((country) => (
+            <button
+              key={country.name}
+              type="button"
+              onMouseDown={() => handleSelect(country)}
+              className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors"
+              style={{ borderLeft: "2px solid transparent" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "var(--bg-raised)";
+                (e.currentTarget as HTMLButtonElement).style.borderLeftColor = "var(--accent)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                (e.currentTarget as HTMLButtonElement).style.borderLeftColor = "transparent";
+              }}
+            >
+              <span className="text-xl leading-none">{country.flag}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm truncate" style={{ color: "var(--text-secondary)" }}>
+                  {country.name}
+                </p>
+              </div>
+              <span
+                className="shrink-0 text-[10px] font-medium uppercase tracking-wider"
+                style={{ color: "var(--text-muted)" }}
+              >
+                {country.region}
+              </span>
+            </button>
+          ))}
         </div>
       )}
     </div>

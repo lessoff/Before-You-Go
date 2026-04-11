@@ -7,11 +7,13 @@ import BriefingList from "@/components/BriefingList";
 import SectionSkeleton from "@/components/ui/SectionSkeleton";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { useBriefing } from "@/hooks/useBriefing";
+import { useRecentCountries } from "@/hooks/useRecentCountries";
 
 function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data, loading, error, fetchBriefing } = useBriefing();
+  const { recent, addRecent } = useRecentCountries();
   const lastQuery = useRef("");
   const [heroCollapsed, setHeroCollapsed] = useState(false);
   const initializedFromUrl = useRef(false);
@@ -31,6 +33,7 @@ function HomeContent() {
   function handleSearch(country: string) {
     lastQuery.current = country;
     fetchBriefing(country);
+    addRecent(country);
     if (!heroCollapsed) setHeroCollapsed(true);
     router.replace(`/?country=${encodeURIComponent(country)}`, { scroll: false });
   }
@@ -119,7 +122,7 @@ function HomeContent() {
               transition: "padding 0.65s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
-            <SearchBar onSearch={handleSearch} isLoading={loading} initialValue={initialCountry} />
+            <SearchBar onSearch={handleSearch} isLoading={loading} initialValue={initialCountry} recentCountries={recent} />
           </div>
         </div>
       </div>

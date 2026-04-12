@@ -14,78 +14,141 @@ interface HolidaysSectionProps {
   delay?: number;
 }
 
-const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTHS = [
+  "January","February","March","April","May","June",
+  "July","August","September","October","November","December",
+];
+
+const DAYS_IN_MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
 
 function formatDate(dateStr: string) {
   const [, m, d] = dateStr.split("-").map(Number);
-  return `${MONTHS[m - 1]} ${d}`;
+  return `${MONTHS[m - 1].slice(0, 3)} ${d}`;
+}
+
+interface MonthDayPickerProps {
+  label: string;
+  month: number | null;
+  day: number | null;
+  onMonthChange: (m: number | null) => void;
+  onDayChange: (d: number | null) => void;
+}
+
+function MonthDayPicker({ label, month, day, onMonthChange, onDayChange }: MonthDayPickerProps) {
+  const maxDays = month !== null ? DAYS_IN_MONTH[month - 1] : 31;
+
+  const selectStyle = {
+    background: "var(--bg-raised)",
+    border: "1px solid var(--border-mid)",
+    color: "var(--text-primary)",
+  };
+
+  const activeSelectStyle = {
+    background: "var(--bg-raised)",
+    border: "1px solid var(--accent-border)",
+    color: "var(--text-primary)",
+  };
+
+  return (
+    <div className="flex-1 flex flex-col gap-1">
+      <label
+        className="text-[10px] font-semibold uppercase tracking-[0.2em]"
+        style={{ color: "var(--text-muted)" }}
+      >
+        {label}
+      </label>
+      <div className="flex gap-1.5">
+        {/* Month select */}
+        <select
+          value={month ?? ""}
+          onChange={(e) => {
+            const val = e.target.value;
+            onMonthChange(val ? Number(val) : null);
+            onDayChange(null);
+          }}
+          className="flex-1 min-w-0 rounded-lg px-2 py-2 text-sm outline-none appearance-none cursor-pointer"
+          style={month !== null ? activeSelectStyle : selectStyle}
+        >
+          <option value="">Month</option>
+          {MONTHS.map((name, i) => (
+            <option key={name} value={i + 1}>{name}</option>
+          ))}
+        </select>
+
+        {/* Day select */}
+        <select
+          value={day ?? ""}
+          onChange={(e) => {
+            const val = e.target.value;
+            onDayChange(val ? Number(val) : null);
+          }}
+          disabled={month === null}
+          className="w-20 shrink-0 rounded-lg px-2 py-2 text-sm outline-none appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          style={day !== null ? activeSelectStyle : selectStyle}
+        >
+          <option value="">Day</option>
+          {Array.from({ length: maxDays }, (_, i) => i + 1).map((d) => (
+            <option key={d} value={d}>{d}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
 }
 
 export default function HolidaysSection({ holidays, delay }: HolidaysSectionProps) {
-  const [from, setFrom] = useState("");
-  const [until, setUntil] = useState("");
+  const [fromMonth, setFromMonth] = useState<number | null>(null);
+  const [fromDay, setFromDay] = useState<number | null>(null);
+  const [untilMonth, setUntilMonth] = useState<number | null>(null);
+  const [untilDay, setUntilDay] = useState<number | null>(null);
 
-  const filtered =
-    from && until
-      ? holidays.filter((h) => h.date >= from && h.date <= until)
-      : [];
+  const fromMD = fromMonth !== null && fromDay !== null
+    ? `${pad(fromMonth)}-${pad(fromDay)}`
+    : null;
+  const untilMD = untilMonth !== null && untilDay !== null
+    ? `${pad(untilMonth)}-${pad(untilDay)}`
+    : null;
 
-  const hasSearched = from && until;
+  const hasSearched = fromMD !== null && untilMD !== null;
+
+  const filtered = hasSearched
+    ? holidays.filter((h) => {
+        const hMD = h.date.slice(5); // "MM-DD"
+        return hMD >= fromMD! && hMD <= untilMD!;
+      })
+    : [];
 
   return (
     <Section title="Public Holidays" delay={delay}>
       <div className="space-y-4">
-        {/* Date range inputs */}
-        <div className="flex items-center gap-2">
-          <div className="flex-1 flex flex-col gap-1">
-            <label
-              className="text-[10px] font-semibold uppercase tracking-[0.2em]"
-              style={{ color: "var(--text-muted)" }}
-            >
-              From
-            </label>
-            <input
-              type="date"
-              value={from}
-              onChange={(e) => setFrom(e.target.value)}
-              className="w-full rounded-lg px-3 py-2 text-sm outline-none"
-              style={{
-                background: "var(--bg-raised)",
-                border: `1px solid ${from ? "var(--accent-border)" : "var(--border-mid)"}`,
-                color: "var(--text-primary)",
-                colorScheme: "light",
-              }}
-            />
-          </div>
+        {/* Month + Day pickers */}
+        <div className="flex items-end gap-2">
+          <MonthDayPicker
+            label="From"
+            month={fromMonth}
+            day={fromDay}
+            onMonthChange={setFromMonth}
+            onDayChange={setFromDay}
+          />
 
           <span
-            className="mt-5 shrink-0 text-sm select-none"
+            className="mb-2 shrink-0 text-sm select-none"
             style={{ color: "var(--text-muted)" }}
           >
             →
           </span>
 
-          <div className="flex-1 flex flex-col gap-1">
-            <label
-              className="text-[10px] font-semibold uppercase tracking-[0.2em]"
-              style={{ color: "var(--text-muted)" }}
-            >
-              Until
-            </label>
-            <input
-              type="date"
-              value={until}
-              min={from || undefined}
-              onChange={(e) => setUntil(e.target.value)}
-              className="w-full rounded-lg px-3 py-2 text-sm outline-none"
-              style={{
-                background: "var(--bg-raised)",
-                border: `1px solid ${until ? "var(--accent-border)" : "var(--border-mid)"}`,
-                color: "var(--text-primary)",
-                colorScheme: "light",
-              }}
-            />
-          </div>
+          <MonthDayPicker
+            label="Until"
+            month={untilMonth}
+            day={untilDay}
+            onMonthChange={setUntilMonth}
+            onDayChange={setUntilDay}
+          />
         </div>
 
         {/* Divider */}
@@ -102,7 +165,8 @@ export default function HolidaysSection({ holidays, delay }: HolidaysSectionProp
         )}
 
         {hasSearched && filtered.length === 0 && (
-          <div className="flex items-center gap-3 rounded-lg px-4 py-3"
+          <div
+            className="flex items-center gap-3 rounded-lg px-4 py-3"
             style={{ background: "var(--accent-dim)", border: "1px solid var(--accent-border)" }}
           >
             <span className="text-lg">✓</span>

@@ -21,7 +21,7 @@ export default function TimeCard({ timezone, utcOffset, delay }: TimeCardProps) 
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-          hour12: true,
+          hour12: false,
         });
         setTime(formatted);
       } catch {

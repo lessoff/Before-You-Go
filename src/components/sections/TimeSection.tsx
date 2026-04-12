@@ -22,7 +22,7 @@ export default function TimeSection({ timezone, delay }: TimeSectionProps) {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-            hour12: true,
+            hour12: false,
           }),
           date: now.toLocaleDateString("en-US", {
             timeZone: tz,
@@ -43,36 +43,18 @@ export default function TimeSection({ timezone, delay }: TimeSectionProps) {
 
   return (
     <Section title="Local Time" delay={delay}>
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <div className="flex items-baseline gap-2 whitespace-nowrap">
-            <span
-              className="font-display text-5xl font-bold leading-none"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {time.time.replace(/\s*(AM|PM)$/i, "")}
-            </span>
-            <span
-              className="font-display text-lg font-semibold"
-              style={{ color: "var(--text-muted)" }}
-            >
-              {time.time.match(/(AM|PM)$/i)?.[0] ?? ""}
-            </span>
-          </div>
-          <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>
-            {time.date}
-          </p>
+      <div>
+        <div className="flex items-baseline gap-2 whitespace-nowrap">
+          <span
+            className="font-display text-5xl font-bold leading-none"
+            style={{ color: "var(--text-primary)" }}
+          >
+            {time.time}
+          </span>
         </div>
-        <div
-          className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium tracking-wide"
-          style={{
-            background: "var(--accent-dim)",
-            color: "var(--accent)",
-            border: "1px solid var(--accent-border)",
-          }}
-        >
-          {timezone}
-        </div>
+        <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>
+          {time.date}
+        </p>
       </div>
     </Section>
   );

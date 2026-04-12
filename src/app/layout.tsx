@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Nunito, DM_Sans, Space_Mono } from "next/font/google";
+import { Sora, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const nunito = Nunito({
+const sora = Sora({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-display",
 });
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
@@ -33,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable} ${dmSans.variable} ${spaceMono.variable}`}>{children}</body>
+      <body className={`${sora.variable} ${inter.variable} ${spaceMono.variable}`}>{children}</body>
     </html>
   );
 }

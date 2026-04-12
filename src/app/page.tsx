@@ -93,7 +93,7 @@ function HomeContent() {
               Travel Intelligence
             </p>
             <h1
-              className="font-display text-6xl font-bold leading-none tracking-tight sm:text-8xl"
+              className="font-display text-5xl font-bold leading-none tracking-tight sm:text-7xl whitespace-nowrap"
               style={{ color: "var(--text-primary)" }}
             >
               Before You Go
